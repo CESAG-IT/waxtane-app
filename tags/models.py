@@ -5,6 +5,7 @@ from django.db import models
 class HashTag(models.Model):
 
     name = models.CharField(max_length=30) # name VARCHAR(30) NOT NULL
+    test = models.CharField(max_length=30, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
