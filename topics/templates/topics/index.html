@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Liste des Sujets
+{% endblock title %}
+
+
+{% block content %}
+<h3> Liste des sujets </h3>
+<a href="{% url 'topics-create' %}" class="btn btn-sm btn-primary"> create </a>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for topic in topics %}
+        <tr>
+          <th scope="row">{{ topic.id}}</th>
+          <td>{{ topic.name }}</td>
+          <td>{{ topic.description }}</td>
+          <td>
+              <a href="{% url 'topics-show' topic.id %}" class="btn btn-sm btn-info"> show</a>
+              <a href="{% url 'topics-update' topic.id %}" class="btn btn-sm btn-warning"> edit</a>
+              <a href="{% url 'topics-delete' topic.id %}" class="btn btn-sm btn-danger"> delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+</table>
+{% endblock content %}
