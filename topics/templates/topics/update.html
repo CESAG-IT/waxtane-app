@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  modification de sujet
+{% endblock title %}
+
+
+{% block content %}
+<h3> Formulaire de mise a jour </h3>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    <ul>
+        {% for message in messages %}
+        <li>
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+  </div>
+
+{% endif %}
+
+<form 
+    method="POST" 
+    action="{% url 'topics-update' topic_to_update.id %}"
+    enctype="multipart/form-data" >
+    {% csrf_token  %}
+
+    {{ topic_form.as_p }}
+    
+    <button type="submit" class="btn btn-primary">update</button>
+  </form>
+
+{% endblock content %}

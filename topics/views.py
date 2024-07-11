@@ -17,13 +17,18 @@ def index(request):
     return render(request, "topics/index.html", context)
 
 def show(request,id):
-    return render(request, "topics/show.html")
+    topic = Topic.objects.get(pk=id)
+    context = {
+        'topic': topic
+    }
+    return render(request, "topics/show.html", context)
 
 def create(request):
-    if request.method == "POST":
+    if request.method == "POST" and request.FILES['image_topic']:
 
-        form = TopicForm(request.POST)
+        form = TopicForm(request.POST, request.FILES)
         if form.is_valid():
+            messages.success(request, "Topic cree avec succes")
             form.save()
             return redirect("topics-list")
         else:
@@ -49,9 +54,35 @@ def create(request):
         return render(request, "topics/create.html", context)
 
 def update(request,id):
-    return render(request, "topics/update.html")
+    topic_to_update = Topic.objects.get(pk=id)
+    form = TopicForm(instance=topic_to_update)
+
+    if request.method == "POST" and request.FILES: 
+        form = TopicForm(request.POST, request.FILES, instance=topic_to_update)
+        if form.is_valid():
+            form.save()
+            messages.info(request, "Topic modifie avec succes")
+            return redirect("topics-list")
+        else:
+            context = {
+                "topic_form": form, 
+                "topic_to_update": topic_to_update
+            }
+            return render(request, "topics/update.html", context)
+        
+    else:
+        context = {
+            "topic_form": form, 
+            "topic_to_update": topic_to_update
+        }
+        return render(request, "topics/update.html", context)
+        
+        
+        
+
 
 def delete(request,id):
     topic = Topic.objects.get(pk=id)
     topic.delete()
+    messages.info(request, "Topic supprime avec succes")
     return redirect("topics-list")
