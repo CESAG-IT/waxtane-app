@@ -41,6 +41,8 @@ def create(request):
 def show(request,id):
     tag = HashTag.objects.get(pk=id) # SELECT * FROM has-tags WHERE id = id
 
+    
+
     context = {
         'tag': tag
     }

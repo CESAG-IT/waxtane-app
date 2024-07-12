@@ -32,7 +32,12 @@
           {% else %}
           <td><img class="topic-img" src="{% static 'images/logo.png' %}" alt="{{ topic.name }}" /> </td>
           {% endif %}
-          <td>{{ topic.name }}</td>
+          <td>
+            {{ topic.name }} 
+            {% if topic.is_deleted %}
+            <span class="badge text-bg-danger">deleted</span>
+            {% endif %}
+          </td>
           <td> <span class="badge text-bg-primary"># {{ topic.tag_id }}</span></td>
           <td>{{ topic.description }}</td>
           <td>

@@ -5,11 +5,16 @@ from django.contrib import messages
 from topics.models import Topic
 from topics.forms import TopicForm
 
+from django.db.models import Q
+
 
 # Create your views here.
 
 def index(request):
-    topic_list = Topic.objects.all()
+    # topic_list = Topic.objects.filter(name__contains="a") | Topic.objects.filter(description__icontains="b")
+    # SELECT * FROM topics WHERE 
+
+    topic_list = Topic.objects.filter(Q(name__contains="a") | Q(description__icontains="b"))
 
     context = {
         'topics': topic_list
@@ -40,7 +45,8 @@ def create(request):
         # topic_description = request.POST.get("description")
 
         # try:
-        #     Topic.objects.create(name=topic_name, description=topic_description)
+        #     topic = Topic(name=topic_name, description=topic_description)
+        #     topic.save()
         #     return redirect("topics-list")
 
         # except Exception as e:
@@ -83,6 +89,7 @@ def update(request,id):
 
 def delete(request,id):
     topic = Topic.objects.get(pk=id)
-    topic.delete()
+    topic.is_deleted = True
+    topic.save()
     messages.info(request, "Topic supprime avec succes")
     return redirect("topics-list")
