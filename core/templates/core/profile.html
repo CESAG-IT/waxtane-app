@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+{% block content %}
+<h1> Page de profile </h1>
+
+<div class="card" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Nom: {{ current_user.last_name }}</h5>
+      <p class="card-text">Prenom: {{ current_user.first_name }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Email: {{ current_user.email }}</li>
+      <li class="list-group-item">Username {{ current_user.username }}</li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">update</a>
+      <a href="{% url 'home' %}" class="card-link">cancel</a>
+    </div>
+  </div>
+{% endblock content %}
